@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "f8b06fb9-b22b-45e1-818f-0db17e9c0b2e",
+		"name": "Laravel Auth API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38366835",
+		"_collection_link": "https://dfg000-1531.postman.co/workspace/ultralightcrm~66e8f471-4368-41db-9388-c32c31ba0dab/collection/38366835-f8b06fb9-b22b-45e1-818f-0db17e9c0b2e?action=share&source=collection_link&creator=38366835"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"pm.environment.set('auth_token', response.token);\r",
+							"console.log('Token saved:', pm.environment.get('auth_token'));\r",
+							"\r",
+							"console.log(\"RESPONSE\",response);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomInt = Math.floor(10000 + Math.random() * 90000);\r",
+							"\r",
+							"// Генерация случайного пола\r",
+							"const genders = ['male', 'female'];\r",
+							"const randomGender = genders[Math.floor(Math.random() * genders.length)];\r",
+							"pm.environment.set('randomInt', randomInt);\r",
+							"pm.environment.set('randomGender', randomGender);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{randomEmail}}\",\n    \"password\": \"{{randomPassword}}\",\n    \"gender\": \"{{randomGender}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/registration",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log(\"RESPONSE\", pm.response.json());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{auth_token}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/api/profile",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "randomEmail",
+			"value": "test-{{randomInt}}@example.com"
+		},
+		{
+			"key": "randomPassword",
+			"value": "password{{randomInt}}"
+		}
+	]
+}
