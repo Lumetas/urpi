@@ -2,4 +2,4 @@
 
 [postman](urpi.json)
 
-[img](demo.png)
+![img](demo.png)
